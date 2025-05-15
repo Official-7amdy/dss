@@ -1,0 +1,85 @@
+/* Dark theme (default) */
+body {
+  --primary: #1a2634;
+  --secondary: #0d1b2a;
+  --accent: #00b0ff;
+  --accent-dark: #0088cc;
+  --success: #00e676;
+  --warning: #ffab40;
+  --danger: #ff5252;
+  --text: #e0e0e0;
+  --text-secondary: #9e9e9e;
+  --card-bg: #1e2d3d;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Light theme */
+body.light-theme {
+  --primary: #f5f7fa;
+  --secondary: #e4e9f0;
+  --accent: #0088cc;
+  --accent-dark: #006699;
+  --success: #00c853;
+  --warning: #ff9800;
+  --danger: #f44336;
+  --text: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Light theme adjustments */
+.light-theme .card, 
+.light-theme .chart-container,
+.light-theme .result {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .bot-message {
+  background: #f0f8ff;
+  border-left: 4px solid var(--accent);
+}
+
+.light-theme .user-message {
+  background: rgba(0, 136, 204, 0.1);
+}
+
+.light-theme .chat-input {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .chat-input-area,
+.light-theme .chatbot-header {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.light-theme .form-input {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .typing-indicator {
+  background: #f0f8ff;
+}
+
+.light-theme .notification {
+  background: white;
+  border-left: 4px solid var(--accent);
+}
+
+.light-theme .theme-toggle {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .result {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .quick-option {
+  background: rgba(0, 136, 204, 0.1);
+}

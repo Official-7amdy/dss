@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Threat Intelligence Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Chatbot Interface -->
+    <div id="chatbot-container">
+      <div class="chatbot-header">
+        <div class="card-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="chatbot-header-info">
+          <h2>CyberSentinel</h2>
+          <p>Your Cybersecurity Assistant</p>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+      
+      <div class="chat-area" id="chatArea">
+        <!-- Bot messages will appear here -->
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="userInput" placeholder="Type your response..." onkeypress="handleKeyPress(event)">
+        <button class="send-btn" onclick="sendMessage()">
+          <i class="fas fa-paper-plane"></i>
+          Send
+        </button>
+      </div>
+    </div>
+
+    <!-- Dashboard Interface -->
+    <div id="dashboard-container">
+      <header>
+        <div class="logo">
+          <i class="fas fa-shield-alt"></i>
+          <h1>Cyber Threat Intelligence Dashboard</h1>
+        </div>
+        <p>Developed by Ahmed Hamdy, Mohamed Saleh, Mohamed Esmat, Moaz Mohamed, Omar Sayed, Patrick Atef</p>
+      </header>
+
+      <main>
+        <div class="threat-level">
+          <div class="threat-category">
+            <div class="threat-category-title">Overall Threat Level</div>
+            <div class="threat-category-value" id="overallThreatLevel">--</div>
+          </div>
+          <div class="threat-category">
+            <div class="threat-category-title">Network Security</div>
+            <div class="threat-category-value" id="networkThreatLevel">--</div>
+          </div>
+          <div class="threat-category">
+            <div class="threat-category-title">Device Security</div>
+            <div class="threat-category-value" id="deviceThreatLevel">--</div>
+          </div>
+          <div class="threat-category">
+            <div class="threat-category-title">Access Security</div>
+            <div class="threat-category-value" id="accessThreatLevel">--</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card slide-in" style="animation-delay: 0.1s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              Upload File
+            </h3>
+            <div class="input-group">
+              <label for="fileUpload">Select file to scan</label>
+              <input type="file" id="fileUpload" class="form-input">
+            </div>
+            <button class="scan-btn" onclick="scan('file')">
+              <i class="fas fa-shield-alt"></i>
+              Scan File
+            </button>
+            <div id="result_file" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.2s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              Scan Email
+            </h3>
+            <div class="input-group">
+              <label for="email">Enter email address</label>
+              <input type="text" id="email" class="form-input" placeholder="user@example.com">
+            </div>
+            <button class="scan-btn" onclick="scan('email')">
+              <i class="fas fa-shield-alt"></i>
+              Scan Email
+            </button>
+            <div id="result_email" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.3s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-link"></i>
+              </div>
+              Scan URL
+            </h3>
+            <div class="input-group">
+              <label for="url">Enter URL</label>
+              <input type="text" id="url" class="form-input" placeholder="https://example.com">
+            </div>
+            <button class="scan-btn" onclick="scan('url')">
+              <i class="fas fa-shield-alt"></i>
+              Scan URL
+            </button>
+            <div id="result_url" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.4s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-network-wired"></i>
+              </div>
+              Scan IP
+            </h3>
+            <div class="input-group">
+              <label for="ip">Enter IP address</label>
+              <input type="text" id="ip" class="form-input" placeholder="192.168.0.1">
+            </div>
+            <button class="scan-btn" onclick="scan('ip')">
+              <i class="fas fa-shield-alt"></i>
+              Scan IP
+            </button>
+            <div id="result_ip" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.5s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              Device Users
+            </h3>
+            <p>Scan for suspicious user accounts on this device</p>
+            <button class="scan-btn" onclick="scan('device_users')">
+              <i class="fas fa-shield-alt"></i>
+              Scan Users
+            </button>
+            <div id="result_device_users" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.6s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-fingerprint"></i>
+              </div>
+              Scan Hash
+            </h3>
+            <div class="input-group">
+              <label for="hash">Enter file hash</label>
+              <input type="text" id="hash" class="form-input" placeholder="d41d8cd98f00b204e9800998ecf8427e">
+            </div>
+            <button class="scan-btn" onclick="scan('hash')">
+              <i class="fas fa-shield-alt"></i>
+              Scan Hash
+            </button>
+            <div id="result_hash" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.7s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-key"></i>
+              </div>
+              Check Password Strength
+            </h3>
+            <div class="input-group">
+              <label for="password">Enter password</label>
+              <input type="password" id="password" class="form-input" placeholder="Enter password">
+            </div>
+            <button class="scan-btn" onclick="scan('password')">
+              <i class="fas fa-shield-alt"></i>
+              Check Strength
+            </button>
+            <div id="result_password" class="result"></div>
+          </div>
+
+          <div class="card slide-in" style="animation-delay: 0.8s;">
+            <h3>
+              <div class="card-icon">
+                <i class="fas fa-laptop"></i>
+              </div>
+              Device Security Check
+            </h3>
+            <div class="input-group">
+              <label for="device">Device Name or ID</label>
+              <input type="text" id="device" class="form-input" placeholder="Enter device name">
+            </div>
+            <button class="scan-btn" onclick="scan('device')">
+              <i class="fas fa-shield-alt"></i>
+              Check Device
+            </button>
+            <div id="result_device" class="result"></div>
+          </div>
+
+          <div class="chart-container slide-in" style="animation-delay: 0.9s;">
+            <h3 class="chart-title">
+              <div class="card-icon">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              Scan Results Summary
+            </h3>
+            <canvas id="scanChart"></canvas>
+          </div>
+        </div>
+
+        <a href="http://localhost:8080/export_csv" download class="report-btn">
+          <i class="fas fa-file-download"></i>
+          Download Scan Report (CSV)
+        </a>
+      </main>
+    </div>
+  </div>
+
+  <!-- Notification element -->
+  <div class="notification" id="notification">
+    <div class="notification-icon">
+      <i class="fas fa-exclamation-circle"></i>
+    </div>
+    <div class="notification-content">
+      <h4 class="notification-title">Threat Detected</h4>
+      <p class="notification-message">A potential security risk has been identified.</p>
+    </div>
+    <button class="notification-close" onclick="closeNotification()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Audio elements -->
+  <audio id="alertSound" src="audio/alert.ogg" preload="auto"></audio>
+  <audio id="messageTone" src="audio/message.ogg" preload="auto"></audio>
+  <audio id="successSound" src="audio/success.ogg" preload="auto"></audio>
+
+  <!-- JavaScript files -->
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/scanner.js"></script>
+</body>
+</html>
